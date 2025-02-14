@@ -9,7 +9,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { ApiService } from '../services/api.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Book } from '../models/book';  
-
+import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-book-create',
@@ -22,7 +22,8 @@ import { Book } from '../models/book';
     MatInputModule,
     MatFormFieldModule,
     MatButtonModule ,
-MatNativeDateModule  
+MatNativeDateModule  ,
+MatDialogModule
 
   ],
 })

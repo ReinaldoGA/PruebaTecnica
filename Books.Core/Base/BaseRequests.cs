@@ -1,5 +1,5 @@
 ﻿using RestSharp;
- 
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using RestSharp.Serializers.NewtonsoftJson;
@@ -19,7 +19,7 @@ namespace Books.Core.Base
         public IList<Tuple<string, string>> Headers { get; set; }
         public IList<Tuple<string, string>> QueryParameters { get; set; }
 
-        public AbstractBaseRequests(string? url )
+        public AbstractBaseRequests(string? url)
         {
             this.Url = url;
             this.Client = new RestClient(this.Url != null ? this.Url : "");
@@ -89,14 +89,29 @@ namespace Books.Core.Base
 
         public async Task<RestResponse<T>> Get<T>(string route = "")
         {
-            var request = this.SetRequest(route);
-            var response = await this.Client.ExecuteGetAsync<T>(request);
-            if (response.StatusCode == System.Net.HttpStatusCode.OK ||
-                response.StatusCode == System.Net.HttpStatusCode.Created)
+            try
             {
-                return response;
+
+
+                var request = this.SetRequest(route);
+                var response = await this.Client.ExecuteGetAsync<T>(request);
+                if (response.StatusCode == System.Net.HttpStatusCode.OK ||
+                    response.StatusCode == System.Net.HttpStatusCode.Created)
+                {
+                    return response;
+                }
+                if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    return response;
+                }
+
+                throw new RequestBaseException<T>(response.StatusCode, response.Content, this.defaultSettings);
             }
-            throw new RequestBaseException<T>(response.StatusCode, response.Content, this.defaultSettings);
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public async Task<RestResponse<T>> Post<T>(string? route, object? body)

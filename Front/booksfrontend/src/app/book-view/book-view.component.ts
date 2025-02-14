@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-
+import { MatDialogModule } from '@angular/material/dialog';
 @Component({
   selector: 'app-book-view',
   templateUrl: './book-view.component.html',
@@ -18,7 +18,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatInputModule,
     MatFormFieldModule,
     MatButtonModule ,
-MatNativeDateModule  
+MatNativeDateModule  ,MatDialogModule
 
   ]
 })
