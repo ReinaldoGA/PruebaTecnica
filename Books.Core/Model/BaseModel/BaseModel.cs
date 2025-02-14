@@ -11,5 +11,7 @@ namespace Books.Core.Model.BaseModel
         public bool Sucess { get; set; } = true;
         public string Message { get; set; } = string.Empty;
         public string ExceptionMessage { get; set; } = string.Empty;
+        public bool found { get; set; } = true;
+
     }
 }

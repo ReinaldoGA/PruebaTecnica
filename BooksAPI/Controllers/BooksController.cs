@@ -44,6 +44,11 @@ namespace BooksAPI.Controllers
         public async Task<ActionResult<OperationResult>> GetBooksByID(int id)
         {
             _operationResult = await _bookServices.GetBookByID(id);
+            if (!_operationResult.found) 
+            {
+                return NotFound(_operationResult);
+            }
+
             if (_operationResult.Sucess)
             {
                 return Ok(_operationResult);
@@ -86,6 +91,11 @@ namespace BooksAPI.Controllers
             }
 
             _operationResult =   await _bookServices.EditBook(id, book);
+
+            if (!_operationResult.found)
+            {
+                return NotFound(_operationResult);
+            }
             if (_baseresult.Sucess)
             {
                 return CreatedAtAction(nameof(AddBooks), _operationResult.Data);
@@ -103,9 +113,15 @@ namespace BooksAPI.Controllers
         {
 
             _baseresult =   await _bookServices.DeleteBook(id);
+
+            if (!_baseresult.found)
+            {
+                return NotFound(_baseresult);
+            }
+
             if (_baseresult.Sucess)
             {
-                return CreatedAtAction(nameof(AddBooks), _baseresult);
+                return Ok(_baseresult);
             }
             return BadRequest(_baseresult);
         }
