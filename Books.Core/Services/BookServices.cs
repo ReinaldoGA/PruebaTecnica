@@ -4,6 +4,7 @@ using Books.Core.Model.Pager;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Books.Core.Base;
 using Books.Core.Model.Book;
+using System.Net;
 namespace Books.Core.Services
 {
     public class BookServices :  AbstractBaseRequests,IBooks 
@@ -32,7 +33,13 @@ namespace Books.Core.Services
             }
             catch (Exception ex)
             {
-                throw;
+                _result= new OperationResult
+                {
+                    Sucess = false,
+                    Message = "",
+                    ExceptionMessage = ex.Message
+                };
+                return _result;
             }
         }
 
@@ -40,6 +47,20 @@ namespace Books.Core.Services
         {
             try
             {
+
+
+                var valid = await GetBookByID(BookID);
+
+                if (!valid.found)
+                {
+                    _baseresult= new BaseModel
+                    {
+                        Sucess = false,
+                        Message = "",
+                        found = false
+                    };
+                    return _baseresult;
+                }
                 var result = await Delete<BaseModel>($"/api/v1/Books/{BookID}");
                 _baseresult= new BaseModel
                 {
@@ -50,7 +71,13 @@ namespace Books.Core.Services
             }
             catch (Exception ex)
             {
-                throw;
+                _baseresult= new BaseModel
+                {
+                    Sucess = false,
+                    Message = "",
+                    ExceptionMessage = ex.Message
+                };
+                return _result;
             }
         }
 
@@ -58,6 +85,14 @@ namespace Books.Core.Services
         {
             try
             {
+
+                var valid =  await GetBookByID(BookID);
+
+                if (!valid.found) 
+                {
+                    return valid;
+                }
+
                 var result = await Put<Book>($"/api/v1/Books/{BookID}", book);
                 _result= new OperationResult
                 {
@@ -67,7 +102,13 @@ namespace Books.Core.Services
             }
             catch (Exception ex)
             {
-                throw;
+                _result= new OperationResult
+                {
+                    Sucess = false,
+                    Message = "",
+                    ExceptionMessage = ex.Message
+                };
+                return _result;
             }
         }
 
@@ -84,7 +125,13 @@ namespace Books.Core.Services
             }
             catch (Exception ex)
             {
-                throw;
+                _result= new OperationResult
+                {
+                    Sucess = false,
+                    Message = "",
+                    ExceptionMessage = ex.Message
+                };
+                return _result;
             }
         }
 
@@ -93,6 +140,17 @@ namespace Books.Core.Services
             try
             {
                 var result = await Get<Book>($"/api/v1/Books/{bookID}");
+                if (result.StatusCode == HttpStatusCode.NotFound) 
+                {
+                    _result= new OperationResult
+                    {
+                        Sucess = false,
+                        Message = "",
+                        found = false,
+                    };
+                    return _result;
+                }
+
                 _result= new OperationResult
                 {
                     Sucess = true,
@@ -103,7 +161,13 @@ namespace Books.Core.Services
             }
             catch (Exception ex)
             {
-                throw;
+                _result= new OperationResult
+                {
+                    Sucess = false,
+                    Message = "",
+                    ExceptionMessage = ex.Message
+                };
+                return _result;
             }
         }
     }
