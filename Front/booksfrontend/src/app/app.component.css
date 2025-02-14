@@ -1,0 +1,56 @@
+.toolbar {
+    display: flex;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+    padding: 10px;
+  }
+  
+  .mat-elevation-z8 {
+    border-radius: 8px;
+  }
+  
+  .text-truncate {
+    display: block;
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .actions-cell {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+  }
+  
+  button mat-icon {
+    font-size: 20px;
+  }
+  .full-width-table {
+    width: 100%;
+  }
+  
+  .action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 8px; /* Espaciado entre botones */
+  }
+  
+  mat-header-cell, mat-cell {
+    text-align: center;
+  }
+  
+  mat-header-cell {
+    font-weight: bold;
+    background: #f5f5f5; /* Color para diferenciar encabezados */
+  }
+  
+  mat-icon {
+    font-size: 18px; /* Tamaño más compacto */
+  }
+  
