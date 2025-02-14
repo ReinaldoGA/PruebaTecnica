@@ -10,6 +10,8 @@ import { BookEditComponent } from '../app/book-edit/book-edit.component';
 import { BookViewComponent } from '../app/book-view/book-view.component';
 import { MatIconModule } from '@angular/material/icon';  
 import { MatTooltipModule } from '@angular/material/tooltip';  
+import { MatDatepickerModule } from '@angular/material/datepicker';  
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -17,7 +19,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  imports: [CommonModule, MatTableModule, MatToolbarModule,MatIconModule,MatTooltipModule]  
+  imports: [CommonModule, MatTableModule, MatToolbarModule,MatIconModule,MatTooltipModule,MatDatepickerModule]  
 })
 
 
@@ -26,7 +28,7 @@ export class AppComponent implements OnInit {
   displayedColumns: string[] = ['id','title','description','pageCount','excerpt','publishDate', 'acciones'];
   dataSource: any[] = [];
    
-  constructor(private apiService: ApiService, private dialog: MatDialog) {}
+  constructor(private apiService: ApiService, private dialog: MatDialog,private snackBar: MatSnackBar) {}
 
   ngOnInit() {
     this.apiService.getBooks().subscribe({
@@ -55,7 +57,11 @@ export class AppComponent implements OnInit {
   }
   
   openEditDialog(book: Book) {
-    const dialogRef = this.dialog.open(BookEditComponent, { data: book });
+    console.log(book);
+    const dialogRef = this.dialog.open(BookEditComponent, {
+      data: { book },  
+      width: '500px' 
+    });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.apiService.getBooks();
@@ -64,7 +70,10 @@ export class AppComponent implements OnInit {
   }
   
   openViewDialog(book: Book) {
-    this.dialog.open(BookViewComponent, { data: book });
+    const dialogRef = this.dialog.open(BookViewComponent, {
+      data: { book },  
+      width: '500px' 
+    });
   }
 
 
@@ -73,9 +82,9 @@ export class AppComponent implements OnInit {
       this.apiService.deleteBook(id).subscribe({
         next: () => {
           this.dataSource = this.dataSource.filter(book => book.id !== id);
-          console.log("Libro eliminado");
+          this.snackBar.open('📖 Libro eliminado exitosamente', 'Cerrar', { duration: 3000 });
         },
-        error: (err) => console.error('Error eliminando el libro:', err)
+        error: (err) => this.snackBar.open('Ha ocurrido un error', 'Cerrar', { duration: 3000 })
       });
     }
   }

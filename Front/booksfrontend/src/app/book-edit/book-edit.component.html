@@ -1,13 +1,35 @@
-<h2>Editar Usuario</h2>
+<h2 mat-dialog-title>Editar Libro</h2>
 
-<label>ID:</label>
-<!-- <input type="text" [(ngModel)]="book.id" disabled /> -->
-<!-- 
-<label>Nombre:</label>
-<input type="text" [(ngModel)]="user.nombre" />
+<form [formGroup]="bookForm" (ngSubmit)="onSave()" class="book-form">
+  <mat-form-field appearance="outline">
+    <mat-label>Título*</mat-label>
+    <input matInput formControlName="title" required />
+  </mat-form-field>
 
-<label>Email:</label>
-<input type="text" [(ngModel)]="user.email" /> -->
+  <mat-form-field appearance="outline">
+    <mat-label>Descripción</mat-label>
+    <textarea matInput formControlName="description"></textarea>
+  </mat-form-field>
 
-<button (click)="save()">Guardar</button>
-<button (click)="closeDialog()">Cancelar</button>
+  <mat-form-field appearance="outline">
+    <mat-label>Cantidad de Páginas*</mat-label>
+    <input matInput type="number" formControlName="pageCount" required />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Extracto</mat-label>
+    <textarea matInput formControlName="excerpt"></textarea>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Fecha de Publicación*</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="publishDate" required />
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <div class="button-group">
+    <button mat-button (click)="onCancel()">Cancelar</button>
+    <button mat-flat-button color="primary" type="submit">Actualizar</button>
+  </div>
+</form>

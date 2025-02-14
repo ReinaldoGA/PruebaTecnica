@@ -30,4 +30,9 @@ export class ApiService {
       map(response => response.data)  
     );
   }
+  getBooksByID(id: number): Observable<Book> {
+    return this.http.get< Book >(`${this.apiUrl}/${id}`).pipe(
+      map(response => response)  
+    );
+  }
 }

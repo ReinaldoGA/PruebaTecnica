@@ -1,5 +1,9 @@
 <mat-toolbar color="primary" class="toolbar">
   <span>📚 Lista de Libros</span>
+  <span class="spacer"></span>
+  <button mat-raised-button color="accent" class="create-button" (click)="openCreateDialog()">
+    <mat-icon>add</mat-icon> Crear
+  </button>
 </mat-toolbar>
 
 <div class="table-container">
